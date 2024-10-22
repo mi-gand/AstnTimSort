@@ -8,7 +8,7 @@ import com.aston.AstnTimSort.models.Person.GenderEnum;
 
 public class PersonParser implements StringParserToComparable<Person> {
 	
-	private final String PATTERN = "<Last name> <age> <male/fimale>";
+	private final String PATTERN = "<Last name> <age> <male/female>";
 
 	@Override
 	public Comparable<Person> parse(String input) {
