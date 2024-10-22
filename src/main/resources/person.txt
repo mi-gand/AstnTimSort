@@ -1,0 +1,5 @@
+Ivanov 35 male
+Popova 28 female
+Petrov 18 male
+Sidorov 40 male
+Ivanov 30 male
