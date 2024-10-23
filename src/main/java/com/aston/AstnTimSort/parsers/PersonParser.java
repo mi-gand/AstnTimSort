@@ -45,4 +45,10 @@ public class PersonParser implements StringParserToComparable<Person> {
 		return EXAMPLE;
 	}
 
+	@Override
+	public String getParsableRepresentation(Comparable<?> obj) {
+		Person person = (Person) obj;
+		return person.getLastName() + " " + person.getAge() + " " + person.getGender();
+	}
+
 }
