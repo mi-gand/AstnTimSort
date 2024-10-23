@@ -23,7 +23,11 @@ public class LoadCommands {
 	}
 
 	/*
-	 * Возможные команды: load -i load -r load -f load -i -t <type> load -r -t
+	 * Возможные команды: load -i 
+	 * load -r 
+	 * load -f 
+	 * load -i -t <type> 
+	 * load -r -t
 	 * <type> load -t -t <type> На данный момент <type> только person
 	 */
 	@Command(command = "load", description = "Data loading")
@@ -48,10 +52,16 @@ public class LoadCommands {
 		setRepositoryType(type);
 		System.out.println("Use this pattern for choosen type:");
 		System.out.println(repository.getPattern());
+		System.out.println("For example:");
+		System.out.println(repository.getInputExample());
 		Scanner in = new Scanner(System.in);
 		String input = in.nextLine();
 		while(!input.isBlank()) {
+			try {
 			repository.add(input);
+			} catch (RuntimeException e) {
+				System.out.println(e.getMessage());
+			}
 			input = in.nextLine();
 		}
 		return "Data has been loaded";
