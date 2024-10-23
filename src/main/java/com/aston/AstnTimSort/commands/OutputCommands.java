@@ -6,12 +6,12 @@ import org.springframework.shell.command.annotation.Command;
 import com.aston.AstnTimSort.repositories.DataRepository;
 
 @Command
-public class ShowCommands {
+public class OutputCommands {
 
 	private final DataRepository repository;
 
 	@Autowired
-	public ShowCommands(DataRepository repository) {
+	public OutputCommands(DataRepository repository) {
 		this.repository = repository;
 	}
 

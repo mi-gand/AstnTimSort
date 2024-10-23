@@ -17,7 +17,7 @@ public class ParserFactory {
 	public StringParserToComparable<?> getParser(String className) {
 		className = className.trim().toUpperCase();
 		if (!map.keySet().contains(className)) {
-			return null;
+			throw new IllegalArgumentException("This data type is not supported");
 		}
 		return map.get(className);
 	}
