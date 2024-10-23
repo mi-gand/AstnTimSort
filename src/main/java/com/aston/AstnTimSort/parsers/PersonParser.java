@@ -40,6 +40,7 @@ public class PersonParser implements StringParserToComparable<Person> {
 		return PATTERN;
 	}
 
+	@Override
 	public String getInputExample() {
 		return EXAMPLE;
 	}
