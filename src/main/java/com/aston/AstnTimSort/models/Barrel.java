@@ -38,7 +38,7 @@ public class Barrel implements Comparable<Barrel> {
                 + storedMaterial + ", whichItIsMade= " + whichItIsMade + ']';
     }
 
-    public static Builder newBuilder(){ return new Builder();}
+    public static Builder getBuilder(){ return new Builder();}
 
     public static class Builder{
         private Double amount;
