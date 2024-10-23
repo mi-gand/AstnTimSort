@@ -2,26 +2,30 @@ package com.aston.AstnTimSort.models;
 
 public class Animal {
 
-    private final TypeEnum type;
-    private final String eyeColor;
+    private final AnimalTypeEnum type;
+    private final EyeColorEnum eyeColor;
     private final Boolean withWool;
 
-    private Animal(TypeEnum type, String eyeColor, Boolean withWool) {
+    private Animal(AnimalTypeEnum type, EyeColorEnum eyeColor, Boolean withWool) {
         this.type = type;
         this.eyeColor = eyeColor;
         this.withWool = withWool;
     }
 
-    public TypeEnum getType() { return type; }
+    public AnimalTypeEnum getType() { return type; }
 
-    public String getEyeColor() { return eyeColor; }
+    public EyeColorEnum getEyeColor() { return eyeColor; }
 
     public boolean isWithWool() { return withWool; }
 
     // method compareTo
 
-    public enum TypeEnum{
+    public enum AnimalTypeEnum{
         MAMMALS, SHELLFISH, FISH, BIRDS, REPTILES, AMPHIBIANS, ARTHROPODS
+    }
+
+    public enum EyeColorEnum{
+        BROWN, BLUE, GREEN, GRAY, BLACK, MIXED
     }
 
     @Override
@@ -32,18 +36,16 @@ public class Animal {
     public static Builder newBuilder(){ return new Builder();}
 
     public static class Builder{
-        private TypeEnum type;
-        private String eyeColor;
+        private AnimalTypeEnum type;
+        private EyeColorEnum eyeColor;
         private Boolean withWool;
 
-        public Builder setType(TypeEnum type){
+        public Builder setType(AnimalTypeEnum type){
             this.type = type;
             return this;
         }
 
-        public Builder setEyeColor(String eyeColor){
-            if (!eyeColor.chars().allMatch(Character::isLetter))
-                throw new IllegalArgumentException();
+        public Builder setEyeColor(EyeColorEnum eyeColor){
             this.eyeColor = eyeColor;
             return this;
         }
