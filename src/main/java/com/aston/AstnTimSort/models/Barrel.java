@@ -1,6 +1,6 @@
 package com.aston.AstnTimSort.models;
 
-public class Barrel {
+public class Barrel implements Comparable<Barrel> {
 
     private final Double amount;
     private final String storedMaterial;
@@ -18,7 +18,15 @@ public class Barrel {
 
     public MaterialEnum getWhichItIsMade() { return whichItIsMade; }
 
-    //method compareTo
+    @Override
+    public int compareTo(Barrel o) {
+        double result = amount - o.getAmount();
+        if (result == 0)
+            result = storedMaterial.compareTo(o.getStoredMaterial());
+        if (result == 0)
+            result = whichItIsMade.compareTo(o.getWhichItIsMade());
+        return (int)result;
+    }
 
     public enum MaterialEnum {
         METAL, PLASTIC, WOODEN
