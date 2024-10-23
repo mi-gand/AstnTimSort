@@ -25,7 +25,7 @@ public class PersonParser implements StringParserToComparable<Person> {
 		} catch (NumberFormatException e) {
 			throw new IllegalArgumentException("Age format is incorrect");
 		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException("Age must be greater then zero");
+			throw new IllegalArgumentException("Age must be greater than zero");
 		}
 		try {
 			builder.setGender(GenderEnum.valueOf(substrings[2].toUpperCase()));

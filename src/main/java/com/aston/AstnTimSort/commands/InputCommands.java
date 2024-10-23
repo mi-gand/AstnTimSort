@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
 
+import javax.management.RuntimeErrorException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.command.annotation.Command;
 import org.springframework.shell.command.annotation.Option;
@@ -28,14 +30,16 @@ public class InputCommands {
 			@Option(longNames = "interactive", shortNames = 'i', description = "Flag enter data by hands") boolean interactive,
 			@Option(longNames = "random", shortNames = 'r', description = "Flag to load random data") boolean random,
 			@Option(longNames = "file", shortNames = 'f', description = "Flag to load random from file") boolean fromFile,
-			@Option(longNames = "type", shortNames = 't', defaultValue = "", description = "Name of the required data type") String type)
+			@Option(longNames = "type", shortNames = 't', description = "Name of the required data type") String type,
+			@Option(longNames = "path", shortNames = 'p', description = "Path to input file") String filePath,
+			@Option(longNames = "count", shortNames = 'c', defaultValue = "0", description = "Name of the required data type") long count)
 			throws IOException {
 		if (interactive) {
 			loadInteractevely(type);
 		} else if (random) {
-			loadRandomly(type);
+			loadRandomly(type, count);
 		} else if (fromFile) {
-			loadFromFile(type);
+			loadFromFile(type, filePath);
 		} else {
 			System.out.println("How do you want to load data?");
 			System.out.println("Interactively (-i), randomly (-r), or from file (-f)");
@@ -44,9 +48,9 @@ public class InputCommands {
 			if ("-i".equals(input)) {
 				loadInteractevely(type);
 			} else if ("-r".equals(input)) {
-				loadRandomly(type);
+				loadRandomly(type, count);
 			} else if ("-f".equals(input)) {
-				loadFromFile(type);
+				loadFromFile(type, filePath);
 			} else {
 				System.out.println("Unknown option");
 			}
@@ -74,14 +78,24 @@ public class InputCommands {
 		return "Data has been loaded";
 	}
 
-	private String loadRandomly(String type) {
+	private void loadRandomly(String type, long count) {
 		System.out.println("Random mode");
 		type = setRepositoryType(type);
-		// TODO
-		return "Data has been loaded";
+		if (count == 0) {
+			try {
+				count = getDataCount();
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				return;
+			}
+		}
+		for (long i = 0; i < count; i++) {
+			repository.add(repository.getInputExample());
+		}
+		System.out.println("Data has been loaded");
 	}
 
-	private void loadFromFile(String type) {
+	private void loadFromFile(String type, String file) {
 		System.out.println("From file mode");
 		try {
 			setRepositoryType(type);
@@ -89,11 +103,14 @@ public class InputCommands {
 			System.out.println(e.getMessage());
 			return;
 		}
-		System.out.println("Type the file path:");
-		Scanner in = new Scanner(System.in);
+		if (file == null) {
+			System.out.println("Type the file path:");
+			Scanner in = new Scanner(System.in);
+			file = in.nextLine();
+		}
 		Path filePath = null;
 		try {
-			filePath = Path.of(in.nextLine());
+			filePath = Path.of(file);
 			if (filePath == null | !Files.isRegularFile(filePath)) {
 				System.out.println("This file doesn't exist");
 				return;
@@ -134,6 +151,21 @@ public class InputCommands {
 		}
 		repository.setType(type);
 		return type;
+	}
+
+	private long getDataCount() {
+		long count;
+		System.out.println("How many objects do you want to add?");
+		Scanner in = new Scanner(System.in);
+		try {
+			count = Long.parseLong(in.nextLine());
+			if (count <= 0)
+				throw new IllegalArgumentException("Count must be greater than zero");
+		} catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Incorrect number format");
+		}
+		return count;
+
 	}
 
 }
