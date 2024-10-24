@@ -1,5 +1,6 @@
 package com.aston.AstnTimSort.parsers;
 
+import com.aston.AstnTimSort.models.Animal;
 import com.aston.AstnTimSort.models.Person;
 import com.aston.AstnTimSort.models.Person.GenderEnum;
 
@@ -42,7 +43,7 @@ public class PersonParser implements StringParserToComparable<Person> {
 
 	@Override
 	public String getInputExample() {
-		return EXAMPLE;
+		return null;
 	}
 
 	@Override
