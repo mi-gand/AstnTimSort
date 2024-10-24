@@ -6,7 +6,6 @@ import java.util.Random;
 public class AnimalParser implements StringParserToComparable<Animal>{
 
     private final String PATTERN = "<Animal type> <Eye color> <Have wool>";
-    private final String EXAMPLE = "sheep brown yes";
 
     @Override
     public Comparable<Animal> parse(String input) {
@@ -45,11 +44,11 @@ public class AnimalParser implements StringParserToComparable<Animal>{
 
         Integer numberOfAnimalTypeEnum = random.nextInt(7);
         Animal.AnimalTypeEnum type = Animal.AnimalTypeEnum.values()[numberOfAnimalTypeEnum];
-        animalToString += Animal.AnimalTypeEnum.valueOf(String.valueOf(type)) + " ";
+        animalToString += type + " ";
 
         Integer numberOfEyeColorEnum= random.nextInt(6);
-        Animal.AnimalTypeEnum eyeColor = Animal.AnimalTypeEnum.values()[numberOfEyeColorEnum];
-        animalToString += Animal.AnimalTypeEnum.valueOf(String.valueOf(eyeColor)) + " ";
+        Animal.EyeColorEnum eyeColor = Animal.EyeColorEnum.values()[numberOfEyeColorEnum];
+        animalToString += eyeColor + " ";
 
         Boolean isWithWool = random.nextBoolean();
         animalToString += isWithWool;
