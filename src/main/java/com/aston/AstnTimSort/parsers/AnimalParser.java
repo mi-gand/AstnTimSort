@@ -1,6 +1,10 @@
 package com.aston.AstnTimSort.parsers;
 
 import com.aston.AstnTimSort.models.Animal;
+import com.aston.AstnTimSort.models.Barrel;
+
+import java.text.DecimalFormat;
+import java.util.Random;
 
 public class AnimalParser implements StringParserToComparable<Animal>{
 
@@ -38,7 +42,24 @@ public class AnimalParser implements StringParserToComparable<Animal>{
     }
 
     @Override
-    public Comparable<Animal> getInputExample() { return null; }
+    public Comparable<Animal> getInputExample() {
+        Random random = new Random();
+
+        Animal.Builder builder = Animal.getBuilder();
+
+        Integer numberOfAnimalTypeEnum = random.nextInt(7);
+        Animal.AnimalTypeEnum type = Animal.AnimalTypeEnum.values()[numberOfAnimalTypeEnum];
+        builder.setType(Animal.AnimalTypeEnum.valueOf(String.valueOf(type)));
+
+        Integer numberOfEyeColorEnum= random.nextInt(6);
+        Animal.AnimalTypeEnum eyeColor = Animal.AnimalTypeEnum.values()[numberOfEyeColorEnum];
+        builder.setType(Animal.AnimalTypeEnum.valueOf(String.valueOf(eyeColor)));
+
+        Boolean isWithWool = random.nextBoolean();
+        builder.setWool(isWithWool);
+
+        return builder.build();
+    }
 
     @Override
     public String getParsableRepresentation(Comparable<?> obj) {
