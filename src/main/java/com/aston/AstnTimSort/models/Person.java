@@ -1,7 +1,20 @@
 package com.aston.AstnTimSort.models;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Person implements Comparable<Person> {
 
+	public static List<String> surnameMale = Arrays.asList(
+			"Ivanov", "Petrov", "Sidorov", "Kuznetsov", "Smirnov", "Vasiliev", "Popov",
+			"Kovalev", "Lebedev", "Mikhailov", "Sorokin", "Nikolaev", "Stepanov", "Frolov",
+			"Solovyev", "Fyodorov","Volkov", "Baranov", "Vorobyov", "Orlov", "Sidorenko", "Grigoryev",
+			"Kolesnikov", "Tikhonov", "Pavlenko", "Kotenko", "Zakharov");
+	public static List<String> surnameFemale = Arrays.asList(
+			"Nikiforova", "Danilova", "Dorofeeva",
+			"Selezneva", "Ilyina", "Vlasova", "Zotova", "Klementyeva", "Paskova", "Kharchenkova", "Makarevichna", "Romanova",
+			"Kramova", "Koroleva", "Kasyanova", "Bogdanova", "Dementyeva", "Panteleeva", "Yumasheva", "Shtyrkova", "Sveshnikova"
+	);
 	private final String lastName;
 	private final Integer age;
 	private final GenderEnum gender;

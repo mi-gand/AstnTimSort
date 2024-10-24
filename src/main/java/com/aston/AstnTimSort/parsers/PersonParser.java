@@ -3,10 +3,12 @@ package com.aston.AstnTimSort.parsers;
 import com.aston.AstnTimSort.models.Person;
 import com.aston.AstnTimSort.models.Person.GenderEnum;
 
+import java.util.Random;
+
 public class PersonParser implements StringParserToComparable<Person> {
 
 	private final String PATTERN = "<Last name> <age> <male/female>";
-	private final String EXAMPLE = "Ivanov 35 male";
+	private static final Random random = new Random();
 
 	@Override
 	public Comparable<Person> parse(String input) {
@@ -42,7 +44,17 @@ public class PersonParser implements StringParserToComparable<Person> {
 
 	@Override
 	public String getInputExample() {
-		return EXAMPLE;
+		String gender = random.nextBoolean() ? "male":"female";
+		String surname = null;
+		if (gender.equals("male")) {
+			String surnames = Person.surnameMale.get(random.nextInt(Person.surnameMale.size()));
+			surname = surnames;
+		}if (gender.equals("female")){
+			String surnames = Person.surnameFemale.get(random.nextInt(Person.surnameFemale.size()));
+			surname = surnames;
+		}
+		int age = random.nextInt(90);
+		return String.format("%s %d %s",surname,age,gender);
 	}
 
 	@Override
