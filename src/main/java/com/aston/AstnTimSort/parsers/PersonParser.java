@@ -42,7 +42,7 @@ public class PersonParser implements StringParserToComparable<Person> {
 	}
 
 	@Override
-	public Comparable<Person> getInputExample() {
+	public String getInputExample() {
 		return null;
 	}
 
