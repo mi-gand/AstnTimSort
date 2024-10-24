@@ -42,23 +42,30 @@ public class AnimalParser implements StringParserToComparable<Animal>{
     }
 
     @Override
-    public Comparable<Animal> getInputExample() {
+    public String getInputExample() {
         Random random = new Random();
+
+        String animalToString = "";
 
         Animal.Builder builder = Animal.getBuilder();
 
         Integer numberOfAnimalTypeEnum = random.nextInt(7);
         Animal.AnimalTypeEnum type = Animal.AnimalTypeEnum.values()[numberOfAnimalTypeEnum];
+        animalToString += Animal.AnimalTypeEnum.valueOf(String.valueOf(type)) + " ";
         builder.setType(Animal.AnimalTypeEnum.valueOf(String.valueOf(type)));
 
         Integer numberOfEyeColorEnum= random.nextInt(6);
         Animal.AnimalTypeEnum eyeColor = Animal.AnimalTypeEnum.values()[numberOfEyeColorEnum];
+        animalToString += Animal.AnimalTypeEnum.valueOf(String.valueOf(eyeColor)) + " ";
         builder.setType(Animal.AnimalTypeEnum.valueOf(String.valueOf(eyeColor)));
 
         Boolean isWithWool = random.nextBoolean();
+        animalToString += isWithWool;
         builder.setWool(isWithWool);
 
-        return builder.build();
+        builder.build();
+
+        return animalToString;
     }
 
     @Override
