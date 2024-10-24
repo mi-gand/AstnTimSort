@@ -1,7 +1,15 @@
 package com.aston.AstnTimSort.repositories;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -21,9 +29,10 @@ public class DataRepository {
 	public DataRepository(ParserFactory parserFactory) {
 		this.parserFactory = parserFactory;
 	}
-	
+
 	public String getPattern() {
-		if (parser == null) return null;
+		if (parser == null)
+			return null;
 		return parser.getPattern();
 	}
 
@@ -45,19 +54,13 @@ public class DataRepository {
 		data = null;
 	}
 
-	public List<?> getData() {
-		return data;
+	public String getDataRepresentation() {
+		return data.stream().map(Object::toString).collect(Collectors.joining("\n"));
 	}
-	
+
 	public void setType(String type) {
 		parser = parserFactory.getParser(type);
 		data = new ArrayList<>();
-	}
-
-	@SuppressWarnings("unchecked")
-	public void add(List<?> data) {
-		this.data = (List<Comparable<?>>) data;
-		sorted = false;
 	}
 
 	public void add(String input) {
@@ -67,8 +70,20 @@ public class DataRepository {
 	}
 
 	public String getInputExample() {
-		if (parser == null) return null;
+		if (parser == null)
+			return null;
 		return parser.getInputExample();
+	}
+
+	public void exportToFile(Path path, boolean append) throws IOException {
+		if (data == null)
+			return;
+		OpenOption openOption = append ? StandardOpenOption.APPEND : StandardOpenOption.CREATE;
+		try (BufferedWriter input = Files.newBufferedWriter(path, openOption)) {
+			for (Comparable<?> obj : data) {
+				input.write(parser.getParsableRepresentation(obj) + "\n");
+			}
+		}
 	}
 
 }
