@@ -38,7 +38,7 @@ public class AnimalParser implements StringParserToComparable<Animal>{
     }
 
     @Override
-    public String getInputExample() { return EXAMPLE; }
+    public Comparable<Animal> getInputExample() { return null; }
 
     @Override
     public String getParsableRepresentation(Comparable<?> obj) {

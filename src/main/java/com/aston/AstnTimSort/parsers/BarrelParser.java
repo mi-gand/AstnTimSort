@@ -2,6 +2,9 @@ package com.aston.AstnTimSort.parsers;
 
 import com.aston.AstnTimSort.models.Barrel;
 
+import java.text.DecimalFormat;
+import java.util.Random;
+
 public class BarrelParser implements StringParserToComparable<Barrel>{
 
     private final String PATTERN = "<Amount> <Stored Material> <Which keg is made>";
@@ -24,7 +27,7 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
         try {
             builder.setStoredMaterial(String.valueOf(substrings[1]));
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Stored material must be greater then zero");
+            throw new IllegalArgumentException("Stored material format is incorrect");
         }
         try {
             builder.setWhichItIsMade(Barrel.MaterialEnum.valueOf(substrings[2].toUpperCase()));
@@ -38,7 +41,23 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
     public String getPattern() { return PATTERN; }
 
     @Override
-    public String getInputExample() { return EXAMPLE; }
+    public Comparable<Barrel> getInputExample() {
+        Random random = new Random();
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        Barrel.Builder builder = Barrel.getBuilder();
+
+        Double amount = 0.3 + (400 - 0.3) * random.nextDouble();
+        builder.setAmount(Double.valueOf(decimalFormat.format(amount)));
+
+        Integer numberOfMaterial = random.nextInt(50) - 1;
+        builder.setRandomMaterial(numberOfMaterial);
+
+        Integer numberOfMaterialEnum = random.nextInt(3);
+        builder.setWhichItIsMade(Barrel.MaterialEnum.valueOf(String.valueOf(numberOfMaterialEnum).toUpperCase()));
+
+        return builder.build();
+    }
 
     @Override
     public String getParsableRepresentation(Comparable<?> obj) {

@@ -1,10 +1,25 @@
 package com.aston.AstnTimSort.models;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Barrel implements Comparable<Barrel> {
 
     private final Double amount;
     private final String storedMaterial;
     private final MaterialEnum whichItIsMade;
+    private static List<String> materials = Arrays.asList(
+            "water", "milk", "juice", "chloramine", "mercury",
+            "lemonade", "soda", "soda", "cocktail", "phenol",
+            "oil", "vinegar", "syrup", "honey", "kefir",
+            "yogurt", "broth", "soup", "compote", "jelly",
+            "mors", "nectar", "cream", "sauce", "ketchup",
+            "mayonnaise", "vegetable oil", "fish oil", "ghee", "essence",
+            "benzene", "lotion", "shampoo", "glycerin", "alcohol",
+            "ethanol", "solvent", "paint", "varnish", "ink",
+            "fuel oil", "oil", "blood", "diethylamine", "trichloroethylene",
+            "hydrogen bromide", "ammonia", "dimethylformamide", "methanol", "hydrogen peroxide"
+    );
 
     private Barrel(Double amount, String storedMaterial, MaterialEnum whichItIsMade) {
         this.amount = amount;
@@ -56,6 +71,11 @@ public class Barrel implements Comparable<Barrel> {
             if (!storedMaterial.chars().allMatch(Character::isLetter))
                 throw new IllegalArgumentException();
             this.storedMaterial = storedMaterial;
+            return this;
+        }
+
+        public Builder setRandomMaterial(Integer number) {
+            this.storedMaterial = materials.get(number);
             return this;
         }
 
