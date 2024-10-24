@@ -44,7 +44,6 @@ public class AnimalParser implements StringParserToComparable<Animal>{
     @Override
     public String getInputExample() {
         Random random = new Random();
-
         String animalToString = "";
 
         Animal.Builder builder = Animal.getBuilder();
