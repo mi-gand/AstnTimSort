@@ -3,3 +3,7 @@ Popova 28 female
 Petrov 18 male
 Sidorov 40 male
 Ivanov 30 male
+Ivanov male
+Ivanov 0 male
+Ivanov1 14 male
+Ivanov 30 null

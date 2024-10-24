@@ -34,7 +34,7 @@ public class Person implements Comparable<Person> {
 		return result;
 	}
 
-	public static enum GenderEnum {
+	public enum GenderEnum {
 		MALE, FEMALE
 	}
 

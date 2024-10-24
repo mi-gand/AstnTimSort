@@ -34,10 +34,11 @@ public class DataRepository {
 		sorted = true;
 	}
 
-	public void find(String input) {
+	public boolean find(String input) {
 		if (!sorted)
 			throw new RuntimeException("Data is not sorted");
 		// TODO
+		return false;
 	}
 
 	public void clearData() {
@@ -63,6 +64,11 @@ public class DataRepository {
 		if (parser == null)
 			return;
 		data.add(parser.parse(input));
+	}
+
+	public String getInputExample() {
+		if (parser == null) return null;
+		return parser.getInputExample();
 	}
 
 }
