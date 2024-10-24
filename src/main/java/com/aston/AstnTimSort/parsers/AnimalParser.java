@@ -1,9 +1,6 @@
 package com.aston.AstnTimSort.parsers;
 
 import com.aston.AstnTimSort.models.Animal;
-import com.aston.AstnTimSort.models.Barrel;
-
-import java.text.DecimalFormat;
 import java.util.Random;
 
 public class AnimalParser implements StringParserToComparable<Animal>{

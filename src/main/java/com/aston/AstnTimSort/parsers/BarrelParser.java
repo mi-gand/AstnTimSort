@@ -1,10 +1,7 @@
 package com.aston.AstnTimSort.parsers;
 
 import com.aston.AstnTimSort.models.Barrel;
-import jakarta.validation.constraints.Max;
-
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Random;
 
 public class BarrelParser implements StringParserToComparable<Barrel>{
