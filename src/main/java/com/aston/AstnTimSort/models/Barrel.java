@@ -33,6 +33,8 @@ public class Barrel implements Comparable<Barrel> {
 
     public MaterialEnum getWhichItIsMade() { return whichItIsMade; }
 
+    public static String getMaterial(Integer number){ return materials.get(number); }
+
     @Override
     public int compareTo(Barrel o) {
         double result = amount - o.getAmount();
@@ -71,11 +73,6 @@ public class Barrel implements Comparable<Barrel> {
             if (!storedMaterial.chars().allMatch(Character::isLetter))
                 throw new IllegalArgumentException();
             this.storedMaterial = storedMaterial;
-            return this;
-        }
-
-        public Builder setRandomMaterial(Integer number) {
-            this.storedMaterial = materials.get(number);
             return this;
         }
 
