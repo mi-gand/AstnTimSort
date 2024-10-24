@@ -1,8 +1,10 @@
 package com.aston.AstnTimSort.parsers;
 
 import com.aston.AstnTimSort.models.Barrel;
+import jakarta.validation.constraints.Max;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.Random;
 
 public class BarrelParser implements StringParserToComparable<Barrel>{
@@ -54,7 +56,8 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
         builder.setRandomMaterial(numberOfMaterial);
 
         Integer numberOfMaterialEnum = random.nextInt(3);
-        builder.setWhichItIsMade(Barrel.MaterialEnum.valueOf(String.valueOf(numberOfMaterialEnum).toUpperCase()));
+        Barrel.MaterialEnum material = Barrel.MaterialEnum.values()[numberOfMaterialEnum];
+        builder.setWhichItIsMade(Barrel.MaterialEnum.valueOf(String.valueOf(material)));
 
         return builder.build();
     }
