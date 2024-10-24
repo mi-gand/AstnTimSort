@@ -43,23 +43,28 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
     public String getPattern() { return PATTERN; }
 
     @Override
-    public Comparable<Barrel> getInputExample() {
+    public String getInputExample() {
         Random random = new Random();
+        String barrelToString = "";
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
         Barrel.Builder builder = Barrel.getBuilder();
 
         Double amount = 0.3 + (400 - 0.3) * random.nextDouble();
+        barrelToString += decimalFormat.format(amount) + " ";
         builder.setAmount(Double.valueOf(decimalFormat.format(amount)));
 
         Integer numberOfMaterial = random.nextInt(50) - 1;
+        barrelToString += builder.setRandomMaterial(numberOfMaterial).toString() + " ";
         builder.setRandomMaterial(numberOfMaterial);
 
         Integer numberOfMaterialEnum = random.nextInt(3);
         Barrel.MaterialEnum material = Barrel.MaterialEnum.values()[numberOfMaterialEnum];
+        barrelToString += Barrel.MaterialEnum.valueOf(String.valueOf(material));
         builder.setWhichItIsMade(Barrel.MaterialEnum.valueOf(String.valueOf(material)));
 
-        return builder.build();
+        builder.build();
+        return barrelToString;
     }
 
     @Override

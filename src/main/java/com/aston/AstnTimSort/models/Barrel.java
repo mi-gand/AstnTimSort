@@ -18,7 +18,7 @@ public class Barrel implements Comparable<Barrel> {
             "benzene", "lotion", "shampoo", "glycerin", "alcohol",
             "ethanol", "solvent", "paint", "varnish", "ink",
             "fuel oil", "oil", "blood", "diethylamine", "trichloroethylene",
-            "hydrogen bromide", "ammonia", "dimethylformamide", "methanol", "hydrogen peroxide"
+            "hydrogen bromide", "ammonia", "dimethylformamide", "methanol", "hydrogen_peroxide"
     );
 
     private Barrel(Double amount, String storedMaterial, MaterialEnum whichItIsMade) {
