@@ -10,8 +10,9 @@ public class ParserFactory {
 	private final Map<String, StringParserToComparable<?>> map = new HashMap<>();
 	{
 		map.put("PERSON", new PersonParser());
-//		map.put("BARREL", new BarrelParser());
-//		map.put("ANIMAL", new AnimalParser());
+		map.put("ANIMAL", new AnimalParser());
+		map.put("BARREL", new AnimalParser());
+
 	}
 
 	public StringParserToComparable<?> getParser(String className) {

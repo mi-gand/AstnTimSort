@@ -1,6 +1,6 @@
 package com.aston.AstnTimSort.models;
 
-public class Animal {
+public class Animal implements Comparable<Animal> {
 
     private final AnimalTypeEnum type;
     private final EyeColorEnum eyeColor;
@@ -18,7 +18,15 @@ public class Animal {
 
     public boolean isWithWool() { return withWool; }
 
-    // method compareTo
+    @Override
+    public int compareTo(Animal o) {
+        int result = type.compareTo(o.getType());
+        if (result == 0)
+            result = eyeColor.compareTo(o.getEyeColor());
+        if (result == 0)
+            result = withWool.compareTo(o.isWithWool());
+        return result;
+    }
 
     public enum AnimalTypeEnum{
         MAMMALS, SHELLFISH, FISH, BIRDS, REPTILES, AMPHIBIANS, ARTHROPODS
@@ -33,7 +41,7 @@ public class Animal {
         return "Animal [type= " + type + ", eyeColor= " + eyeColor +", withWool=" + withWool + ']';
     }
 
-    public static Builder newBuilder(){ return new Builder();}
+    public static Builder getBuilder(){ return new Builder();}
 
     public static class Builder{
         private AnimalTypeEnum type;
