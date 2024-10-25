@@ -33,7 +33,7 @@ public class Animal implements Comparable<Animal> {
     }
 
     public enum EyeColorEnum{
-        BROWN, BLUE, GREEN, GRAY, BLACK, MIXED
+        BROWN, BLUE, GREEN, GRAY, BLACK, MIXED, WITHOUT_EYE
     }
 
     @Override
