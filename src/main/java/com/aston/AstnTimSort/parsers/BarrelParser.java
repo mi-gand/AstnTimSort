@@ -1,6 +1,8 @@
 package com.aston.AstnTimSort.parsers;
 
 import com.aston.AstnTimSort.models.Barrel;
+import java.text.DecimalFormat;
+import java.util.Random;
 
 public class BarrelParser implements StringParserToComparable<Barrel>{
 
@@ -24,7 +26,7 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
         try {
             builder.setStoredMaterial(String.valueOf(substrings[1]));
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Stored material must be greater then zero");
+            throw new IllegalArgumentException("Stored material format is incorrect");
         }
         try {
             builder.setWhichItIsMade(Barrel.MaterialEnum.valueOf(substrings[2].toUpperCase()));
@@ -38,7 +40,23 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
     public String getPattern() { return PATTERN; }
 
     @Override
-    public String getInputExample() { return EXAMPLE; }
+    public String getInputExample() {
+        Random random = new Random();
+        String barrelToString = "";
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
+        Double amount = 0.3 + (400 - 0.3) * random.nextDouble();
+        barrelToString += decimalFormat.format(amount) + " ";
+
+        Integer numberOfMaterial = random.nextInt(50) - 1;
+        barrelToString += Barrel.getMaterial(numberOfMaterial) + " ";
+
+        Integer numberOfMaterialEnum = random.nextInt(3);
+        Barrel.MaterialEnum material = Barrel.MaterialEnum.values()[numberOfMaterialEnum];
+        barrelToString += Barrel.MaterialEnum.valueOf(String.valueOf(material));
+
+        return barrelToString;
+    }
 
     @Override
     public String getParsableRepresentation(Comparable<?> obj) {

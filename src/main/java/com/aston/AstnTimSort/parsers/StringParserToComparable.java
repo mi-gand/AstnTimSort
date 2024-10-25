@@ -5,6 +5,8 @@ public interface StringParserToComparable<T> {
 	String getPattern();
 	String getInputExample();
 
+
 	String getParsableRepresentation(Comparable<?> obj);
+
 
 }
