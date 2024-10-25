@@ -2,8 +2,6 @@ package com.aston.AstnTimSort.parsers;
 
 import com.aston.AstnTimSort.models.Barrel;
 import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.Random;
 
 public class BarrelParser implements StringParserToComparable<Barrel>{
