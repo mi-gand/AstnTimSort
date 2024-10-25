@@ -11,12 +11,7 @@ public class ParserFactory {
 	{
 		map.put("PERSON", new PersonParser());
 		map.put("ANIMAL", new AnimalParser());
-<<<<<<< HEAD
-		map.put("BARREL", new AnimalParser());
-
-=======
 		map.put("BARREL", new BarrelParser());
->>>>>>> 115b28070784fbf1d1de414ad69baeda596420aa
 	}
 
 	public StringParserToComparable<?> getParser(String className) {

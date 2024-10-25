@@ -14,11 +14,11 @@ public class Barrel implements Comparable<Barrel> {
             "oil", "vinegar", "syrup", "honey", "kefir",
             "yogurt", "broth", "soup", "compote", "jelly",
             "mors", "nectar", "cream", "sauce", "ketchup",
-            "mayonnaise", "vegetable oil", "fish oil", "ghee", "essence",
+            "mayonnaise", "vegetable_oil", "fish_oil", "ghee", "essence",
             "benzene", "lotion", "shampoo", "glycerin", "alcohol",
             "ethanol", "solvent", "paint", "varnish", "ink",
-            "fuel oil", "oil", "blood", "diethylamine", "trichloroethylene",
-            "hydrogen bromide", "ammonia", "dimethylformamide", "methanol", "hydrogen_peroxide"
+            "fuel_oil", "oil", "blood", "diethylamine", "trichloroethylene",
+            "hydrogen_bromide", "ammonia", "dimethylformamide", "methanol", "hydrogen_peroxide"
     );
 
     private Barrel(Double amount, String storedMaterial, MaterialEnum whichItIsMade) {
@@ -70,8 +70,6 @@ public class Barrel implements Comparable<Barrel> {
         }
 
         public Builder setStoredMaterial(String storedMaterial){
-            if (!storedMaterial.chars().allMatch(Character::isLetter))
-                throw new IllegalArgumentException();
             this.storedMaterial = storedMaterial;
             return this;
         }

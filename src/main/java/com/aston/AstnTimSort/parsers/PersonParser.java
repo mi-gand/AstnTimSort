@@ -43,7 +43,7 @@ public class PersonParser implements StringParserToComparable<Person> {
 
 	@Override
 	public String getInputExample() {
-		return null;
+		return EXAMPLE;
 	}
 
 	@Override

@@ -2,12 +2,13 @@ package com.aston.AstnTimSort.parsers;
 
 import com.aston.AstnTimSort.models.Barrel;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.Random;
 
 public class BarrelParser implements StringParserToComparable<Barrel>{
 
     private final String PATTERN = "<Amount> <Stored Material> <Which keg is made>";
-    private final String EXAMPLE = "216,5 wine wooden";
 
     @Override
     public Comparable<Barrel> parse(String input) {
@@ -17,16 +18,16 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
         Barrel.Builder builder = Barrel.getBuilder();
         String amount = substrings[0];
         try {
-            builder.setAmount(Double.valueOf(amount));
+            builder.setAmount(Double.parseDouble(amount));
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Amount format is incorrect");
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Amount must be greater then zero");
         }
         try {
-            builder.setStoredMaterial(String.valueOf(substrings[1]));
+            builder.setStoredMaterial(substrings[1]);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Stored material format is incorrect");
+            throw new IllegalArgumentException(String.format("Stored material(%s) format is incorrect", substrings[1]));
         }
         try {
             builder.setWhichItIsMade(Barrel.MaterialEnum.valueOf(substrings[2].toUpperCase()));
@@ -46,14 +47,14 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
         Double amount = 0.3 + (400 - 0.3) * random.nextDouble();
-        barrelToString += decimalFormat.format(amount) + " ";
+        barrelToString += decimalFormat.format(amount).replace(',', '.') + " ";
 
-        Integer numberOfMaterial = random.nextInt(50) - 1;
+        Integer numberOfMaterial = random.nextInt(50);
         barrelToString += Barrel.getMaterial(numberOfMaterial) + " ";
 
         Integer numberOfMaterialEnum = random.nextInt(3);
         Barrel.MaterialEnum material = Barrel.MaterialEnum.values()[numberOfMaterialEnum];
-        barrelToString += Barrel.MaterialEnum.valueOf(String.valueOf(material));
+        barrelToString += material;
 
         return barrelToString;
     }
