@@ -47,17 +47,21 @@ public class AnimalParser implements StringParserToComparable<Animal>{
         animalToString += type + " ";
 
         Integer numberOfEyeColorEnum;
-        if (numberOfAnimalTypeEnum == 3 || numberOfAnimalTypeEnum == 4 || numberOfAnimalTypeEnum == 6) {
-            numberOfEyeColorEnum = random.nextInt(6);
+        if (numberOfAnimalTypeEnum == 2 || numberOfAnimalTypeEnum == 3 || numberOfAnimalTypeEnum == 5) {
+            numberOfEyeColorEnum = random.nextInt(5);
         } else {
-            numberOfEyeColorEnum = random.nextInt(7);
+            numberOfEyeColorEnum = random.nextInt(6);
         }
         Animal.EyeColorEnum eyeColor = Animal.EyeColorEnum.values()[numberOfEyeColorEnum];
         animalToString += eyeColor + " ";
 
-        if (numberOfAnimalTypeEnum == 1) {
-            Boolean isWithWool = random.nextBoolean();
-            animalToString += isWithWool;
+        if (numberOfAnimalTypeEnum == 0) {
+            if(numberOfEyeColorEnum == 6){
+                animalToString += "true";
+            }else{
+                Boolean isWithWool = random.nextBoolean();
+                animalToString += isWithWool;
+            }
         } else {
             animalToString += "false";
         }
