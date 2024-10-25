@@ -1,6 +1,5 @@
 package com.aston.AstnTimSort.parsers;
 
-import com.aston.AstnTimSort.models.Animal;
 import com.aston.AstnTimSort.models.Person;
 import com.aston.AstnTimSort.models.Person.GenderEnum;
 
@@ -54,7 +53,7 @@ public class PersonParser implements StringParserToComparable<Person> {
 			String surnames = Person.surnameFemale.get(random.nextInt(Person.surnameFemale.size()));
 			surname = surnames;
 		}
-		int age = random.nextInt(90);
+		int age = random.nextInt(1, 101);
 		return String.format("%s %d %s",surname,age,gender);
 	}
 
