@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 public class AnimalFromFileParser implements StringFromFileParserToComparable<Animal> {
 
-	private final String PATTERN = "Animal [type=%s, eyeColor=%d, withWool=%s]";
+	private final String PATTERN = "Animal [type=%s, eyeColor=%s, withWool=%s]";
 	private Pattern typeNamePattern = Pattern.compile("Animal[\\s\\[ | \\[]");
 	private Pattern typePattern = Pattern.compile("type=(.*?)[\\,|\\]]");
 	private Pattern eyeColorPattern = Pattern.compile("eyeColor=(.*?)[\\,|\\]]");

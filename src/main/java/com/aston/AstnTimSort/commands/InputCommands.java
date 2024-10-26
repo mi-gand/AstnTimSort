@@ -1,12 +1,12 @@
 package com.aston.AstnTimSort.commands;
 
+import static com.aston.AstnTimSort.utils.ConsoleUtils.askGeneralQuestion;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Scanner;
-
-import javax.management.RuntimeErrorException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.command.annotation.Command;
@@ -34,6 +34,17 @@ public class InputCommands {
 			@Option(longNames = "path", shortNames = 'p', description = "Path to input file") String filePath,
 			@Option(longNames = "count", shortNames = 'c', defaultValue = "0", description = "Name of the required data type") long count)
 			throws IOException {
+		if (repository.hasData()) {
+			System.out.println("There are some data alreade");
+			Boolean answer = askGeneralQuestion("Do you want to load new data?");
+			if (answer == null) {
+				System.out.println("Unclear answer");
+				return;
+			}
+			if (!answer) {
+				return;
+			}
+		}
 		if (interactive) {
 			loadInteractevely(type);
 		} else if (random) {
@@ -57,9 +68,12 @@ public class InputCommands {
 		}
 	}
 
-	private String loadInteractevely(String type) {
+	private void loadInteractevely(String type) {
 		System.out.println("Interactive mode");
-		setRepositoryType(type);
+		if (!setRepositoryType(type)) {
+			System.out.println("This type is not supported");
+			return;
+		}
 		System.out.println("Use this pattern for choosen type:");
 		System.out.println(repository.getPattern());
 		System.out.println("For example:");
@@ -75,12 +89,15 @@ public class InputCommands {
 			}
 			input = in.nextLine();
 		}
-		return "Data has been loaded";
+		System.out.println("Data has been loaded");
 	}
 
 	private void loadRandomly(String type, long count) {
 		System.out.println("Random mode");
-		type = setRepositoryType(type);
+		if (!setRepositoryType(type)) {
+			System.out.println("This type is not supported");
+			return;
+		}
 		if (count == 0) {
 			try {
 				count = getDataCount();
@@ -97,10 +114,8 @@ public class InputCommands {
 
 	private void loadFromFile(String type, String file) {
 		System.out.println("From file mode");
-		try {
-			setRepositoryType(type);
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
+		if (!setRepositoryType(type)) {
+			System.out.println("This type is not supported");
 			return;
 		}
 		if (file == null) {
@@ -141,15 +156,19 @@ public class InputCommands {
 		System.out.println("Data has been loaded");
 	}
 
-	private String setRepositoryType(String type) {
+	private boolean setRepositoryType(String type) {
 		if (type == null) {
 			System.out.printf("Which type of data do you want to load: %s?\n",
 					repository.getSupportedDataTypesAsOneLine());
 			Scanner in = new Scanner(System.in);
 			type = in.nextLine();
 		}
-		repository.setType(type);
-		return type;
+		try {
+			repository.setType(type);
+		} catch (IllegalArgumentException e) {
+			return false;
+		}
+		return true;
 	}
 
 	private long getDataCount() {

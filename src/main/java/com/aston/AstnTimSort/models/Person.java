@@ -3,7 +3,7 @@ package com.aston.AstnTimSort.models;
 import java.util.Arrays;
 import java.util.List;
 
-public class Person implements Comparable<Person> {
+public class Person implements Comparable<Person>, HasIntField {
 
 	public static List<String> surnameMale = Arrays.asList(
 			"Ivanov", "Petrov", "Sidorov", "Kuznetsov", "Smirnov", "Vasiliev", "Popov",
@@ -87,6 +87,11 @@ public class Person implements Comparable<Person> {
 		public Person build() {
 			return new Person(lastName, age, gender);
 		}
+	}
+
+	@Override
+	public int getIntField() {
+		return age;
 	}
 
 }

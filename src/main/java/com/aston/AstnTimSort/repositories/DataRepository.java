@@ -11,13 +11,14 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import com.aston.AstnTimSort.utils.BinSearch;
+import com.aston.AstnTimSort.utils.StrangeSort;
 import com.aston.AstnTimSort.utils.TimSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.aston.AstnTimSort.models.HasIntField;
 import com.aston.AstnTimSort.parsers.ParserFactory;
 import com.aston.AstnTimSort.parsers.ParserFromFileFactory;
 import com.aston.AstnTimSort.parsers.StringFromFileParserToComparable;
@@ -48,22 +49,40 @@ public class DataRepository {
 	}
 
 	public void sort() {
-		if (sorted)
+		if (sorted || !hasData())
 			return;
-		data.sort(null);
 		TimSort.sort(data);
 		sorted = true;
 	}
 
+	public void strangeSort() {
+		if (!hasData())
+			return;
+		if (!(data.get(0) instanceof HasIntField))
+			throw new UnsupportedOperationException(
+					"This data type cannot be strangely sorted because it doen't have integer field");
+		StrangeSort.sort(data);
+		sorted = false;
+	}
+
 	public boolean find(String input) {
-		if (!sorted)
+		if (!hasData()) {
+			throw new RuntimeException("There are no data");
+		}
+		if (!sorted) {
 			throw new RuntimeException("Data is not sorted");
-		Optional<Comparable<?>> result = BinSearch.search(data, parser.parse(input));
-		if (result.isPresent()) {
-			searchResult = result.get();
-			return true;
-		} else {
-			return false;
+		}
+		try {
+			Comparable<?> objToFind = parser.parse(input);
+			Optional<Comparable<?>> result = BinSearch.search(data, objToFind);
+			if (result.isPresent()) {
+				searchResult = result.get();
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e.getMessage());
 		}
 	}
 
@@ -73,12 +92,13 @@ public class DataRepository {
 	}
 
 	public String getDataRepresentation() {
-		return data.stream().map(Object::toString).collect(Collectors.joining("\n"));
+		return data.stream().map(Object::toString).collect(joining("\n"));
 	}
 
 	public void setType(String type) {
-		parser = parserFactory.getParser(type);
-		parserFromFile = parserFromFileFactory.getParser(type);
+		parser = parserFactory.getParser(type).orElseThrow(IllegalArgumentException::new);
+		parserFromFile = parserFromFileFactory.getParser(type)
+				.orElseThrow(IllegalArgumentException::new);
 		data = new ArrayList<>();
 	}
 
@@ -88,7 +108,7 @@ public class DataRepository {
 		data.add(parser.parse(input));
 		sorted = false;
 	}
-	
+
 	public void addFromFile(String input) {
 		if (parserFromFile == null)
 			return;
@@ -124,13 +144,19 @@ public class DataRepository {
 			return;
 		OpenOption openOption = append ? StandardOpenOption.APPEND : StandardOpenOption.CREATE;
 		try (BufferedWriter input = Files.newBufferedWriter(path, openOption)) {
-			for (Comparable<?> obj : data) {
-				input.write(parserFromFile.getParsableRepresentation(obj) + "\n");
-			}
+			input.write(parserFromFile.getParsableRepresentation(searchResult) + "\n");
 		}
 	}
-	
+
 	public String getSupportedDataTypesAsOneLine() {
 		return parserFactory.getNamesOfSupportedTypesAsOneLine();
+	}
+
+	public boolean hasData() {
+		return !(data == null || data.size() == 0);
+	}
+
+	public boolean isSorted() {
+		return sorted;
 	}
 }
