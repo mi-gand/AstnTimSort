@@ -29,7 +29,7 @@ public class Animal implements Comparable<Animal> {
     }
 
     public enum AnimalTypeEnum{
-        MAMMALS, SHELLFISH, FISH, BIRDS, REPTILES, AMPHIBIANS, ARTHROPODS
+        MAMMAL, SHELLFISH, FISH, BIRD, REPTILE, AMPHIBIAN, ARTHROPOD
     }
 
     public enum EyeColorEnum{

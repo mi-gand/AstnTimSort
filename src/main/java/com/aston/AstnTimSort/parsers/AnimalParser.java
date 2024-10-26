@@ -6,6 +6,7 @@ import java.util.Random;
 public class AnimalParser implements StringParserToComparable<Animal>{
 
     private final String PATTERN = "<Animal type> <Eye color> <Have wool>";
+    private static final Random random = new Random();
 
     @Override
     public Comparable<Animal> parse(String input) {
@@ -39,7 +40,6 @@ public class AnimalParser implements StringParserToComparable<Animal>{
 
     @Override
     public String getInputExample() {
-        Random random = new Random();
         String animalToString = "";
 
         Integer numberOfAnimalTypeEnum = random.nextInt(7);
