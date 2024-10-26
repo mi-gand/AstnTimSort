@@ -7,6 +7,7 @@ import java.util.Random;
 public class BarrelParser implements StringParserToComparable<Barrel>{
 
     private final String PATTERN = "<Amount> <Stored Material> <Which keg is made>";
+    private static final Random random = new Random();
 
     @Override
     public Comparable<Barrel> parse(String input) {
@@ -40,7 +41,6 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
 
     @Override
     public String getInputExample() {
-        Random random = new Random();
         String barrelToString = "";
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
