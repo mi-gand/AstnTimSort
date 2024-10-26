@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.aston.AstnTimSort.utils.BinSearch;
+import com.aston.AstnTimSort.utils.TimSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.aston.AstnTimSort.parsers.ParserFactory;
 import com.aston.AstnTimSort.parsers.StringParserToComparable;
-import com.aston.AstnTimSort.utils.DataUtils;
 
 @Repository
 public class DataRepository {
@@ -42,14 +43,14 @@ public class DataRepository {
 		if (sorted)
 			return;
 		data.sort(null);
-		// DataUtils.timSort(data); //TODO
+		TimSort.sort(data);
 		sorted = true;
 	}
 
 	public boolean find(String input) {
 		if (!sorted)
 			throw new RuntimeException("Data is not sorted");
-		Optional<Comparable<?>> result = DataUtils.binarySearch(parser.parse(input));
+		Optional<Comparable<?>> result = BinSearch.search(data, parser.parse(input));
 		if (result.isPresent()) {
 			searchResult = result.get();
 			return true;
