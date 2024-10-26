@@ -31,7 +31,7 @@ public class AnimalFromFileParser implements StringFromFileParserToComparable<An
 		Matcher typeMatcher = typePattern.matcher(input);
 		Matcher eyeColorMatcher = eyeColorPattern.matcher(input);
 		Matcher withWoolMatcher = withWoolPattern.matcher(input);
-		if (!typeMatcher.find() | !eyeColorMatcher.find() | !withWoolMatcher.find()) {
+		if (!typeMatcher.find() || !eyeColorMatcher.find() || !withWoolMatcher.find()) {
 			errorMessages.add("Incorrect format");
 			return null;
 		}

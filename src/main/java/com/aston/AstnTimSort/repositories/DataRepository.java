@@ -1,5 +1,7 @@
 package com.aston.AstnTimSort.repositories;
 
+import static java.util.stream.Collectors.joining;
+
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.aston.AstnTimSort.parsers.ParserFactory;
+import com.aston.AstnTimSort.parsers.ParserFromFileFactory;
+import com.aston.AstnTimSort.parsers.StringFromFileParserToComparable;
 import com.aston.AstnTimSort.parsers.StringParserToComparable;
 import com.aston.AstnTimSort.utils.DataUtils;
 
@@ -23,13 +27,17 @@ public class DataRepository {
 	private List<Comparable<?>> data;
 	private boolean sorted;
 	private StringParserToComparable<?> parser;
+	private StringFromFileParserToComparable<?> parserFromFile;
 
 	private final ParserFactory parserFactory;
+	private final ParserFromFileFactory parserFromFileFactory;
 	private Comparable<?> searchResult;
 
 	@Autowired
-	public DataRepository(ParserFactory parserFactory) {
+	public DataRepository(ParserFactory parserFactory,
+			ParserFromFileFactory parserFromFileFactory) {
 		this.parserFactory = parserFactory;
+		this.parserFromFileFactory = parserFromFileFactory;
 	}
 
 	public String getPattern() {
@@ -60,6 +68,7 @@ public class DataRepository {
 
 	public void clearData() {
 		data = null;
+		searchResult = null;
 	}
 
 	public String getDataRepresentation() {
@@ -68,6 +77,7 @@ public class DataRepository {
 
 	public void setType(String type) {
 		parser = parserFactory.getParser(type);
+		parserFromFile = parserFromFileFactory.getParser(type);
 		data = new ArrayList<>();
 	}
 
@@ -75,6 +85,20 @@ public class DataRepository {
 		if (parser == null)
 			return;
 		data.add(parser.parse(input));
+		sorted = false;
+	}
+	
+	public void addFromFile(String input) {
+		if (parserFromFile == null)
+			return;
+		List<String> errorMessages = new ArrayList<>();
+		Comparable<?> parseResult = parserFromFile.parse(input, errorMessages);
+		if (errorMessages.size() > 0) {
+			String message = errorMessages.stream().collect(joining("; "));
+			throw new IllegalArgumentException(message);
+		}
+		data.add(parseResult);
+		sorted = false;
 	}
 
 	public String getInputExample() {
@@ -89,20 +113,23 @@ public class DataRepository {
 		OpenOption openOption = append ? StandardOpenOption.APPEND : StandardOpenOption.CREATE;
 		try (BufferedWriter input = Files.newBufferedWriter(path, openOption)) {
 			for (Comparable<?> obj : data) {
-				input.write(parser.getParsableRepresentation(obj) + "\n");
-			}
-		}
-	}
-	
-	public void exportToFileSearchResult(Path path, boolean append) throws IOException {
-		if (data == null)
-			return;
-		OpenOption openOption = append ? StandardOpenOption.APPEND : StandardOpenOption.CREATE;
-		try (BufferedWriter input = Files.newBufferedWriter(path, openOption)) {
-			for (Comparable<?> obj : data) {
-				input.write(parser.getParsableRepresentation(obj) + "\n");
+				input.write(parserFromFile.getParsableRepresentation(obj) + "\n");
 			}
 		}
 	}
 
+	public void exportToFileSearchResult(Path path, boolean append) throws IOException {
+		if (searchResult == null)
+			return;
+		OpenOption openOption = append ? StandardOpenOption.APPEND : StandardOpenOption.CREATE;
+		try (BufferedWriter input = Files.newBufferedWriter(path, openOption)) {
+			for (Comparable<?> obj : data) {
+				input.write(parserFromFile.getParsableRepresentation(obj) + "\n");
+			}
+		}
+	}
+	
+	public String getSupportedDataTypesAsOneLine() {
+		return parserFactory.getNamesOfSupportedTypesAsOneLine();
+	}
 }
