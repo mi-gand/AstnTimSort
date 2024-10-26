@@ -30,7 +30,7 @@ public class PersonFromFileParser implements StringFromFileParserToComparable<Pe
 		Matcher lastNameMatcher = lastNamePattern.matcher(input);
 		Matcher ageMatcher = agePattern.matcher(input);
 		Matcher genderMatcher = genderPattern.matcher(input);
-		if (!lastNameMatcher.find() | !ageMatcher.find() | !genderMatcher.find()) {
+		if (!lastNameMatcher.find() || !ageMatcher.find() || !genderMatcher.find()) {
 			errorMessages.add("Incorrect format");
 			return null;
 		}

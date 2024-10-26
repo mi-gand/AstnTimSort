@@ -87,7 +87,7 @@ public class OutputCommands {
 
 	private Boolean askIfUserWantsToRewriteFile() {
 		System.out.println("This file already exists");
-		System.out.println("Do you want to rewrite file? (Y/N)");
+		System.out.print("Do you want to rewrite file? (Y/N): ");
 		Scanner in = new Scanner(System.in);
 		String answer = in.nextLine().trim().toUpperCase();
 		if ("Y".equals(answer)) {
@@ -100,7 +100,7 @@ public class OutputCommands {
 	}
 
 	private Boolean askIfUserWantsToAppendToFile() {
-		System.out.println("Do you want to append to the file? (Y/N)");
+		System.out.print("Do you want to append to the file? (Y/N): ");
 		Scanner in = new Scanner(System.in);
 		String answer = in.nextLine().trim().toUpperCase();
 		if ("Y".equals(answer)) {

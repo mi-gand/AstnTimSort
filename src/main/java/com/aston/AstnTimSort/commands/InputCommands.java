@@ -44,7 +44,7 @@ public class InputCommands {
 			System.out.println("How do you want to load data?");
 			System.out.println("Interactively (-i), randomly (-r), or from file (-f)");
 			Scanner in = new Scanner(System.in);
-			String input = in.nextLine();
+			String input = in.nextLine().trim();
 			if ("-i".equals(input)) {
 				loadInteractevely(type);
 			} else if ("-r".equals(input)) {
@@ -124,7 +124,7 @@ public class InputCommands {
 			String line = input.readLine();
 			while (line != null) {
 				try {
-					repository.add(line);
+					repository.addFromFile(line);
 				} catch (RuntimeException e) {
 					System.out.printf(CORRUPTED_LINE_MSG_TMPL, lineNumber, line, e.getMessage());
 				}
@@ -143,9 +143,8 @@ public class InputCommands {
 
 	private String setRepositoryType(String type) {
 		if (type == null) {
-			System.out
-					.println("Which type of data do you want to load (Person, Animal, or Barrel)?");
-			// TODO repository should give possible variants
+			System.out.printf("Which type of data do you want to load: %s?\n",
+					repository.getSupportedDataTypesAsOneLine());
 			Scanner in = new Scanner(System.in);
 			type = in.nextLine();
 		}

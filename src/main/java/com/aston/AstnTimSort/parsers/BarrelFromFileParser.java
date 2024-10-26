@@ -30,7 +30,7 @@ public class BarrelFromFileParser implements StringFromFileParserToComparable<Ba
 		Matcher amountMatcher = amountPattern.matcher(input);
 		Matcher storedMaterialMatcher = storedMaterialPattern.matcher(input);
 		Matcher whichItIsMadeMatcher = whichItIsMadePattern.matcher(input);
-		if (!amountMatcher.find() | !storedMaterialMatcher.find() | !whichItIsMadeMatcher.find()) {
+		if (!amountMatcher.find() || !storedMaterialMatcher.find() || !whichItIsMadeMatcher.find()) {
 			errorMessages.add("Incorrect format");
 			return null;
 		}
