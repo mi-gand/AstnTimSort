@@ -12,10 +12,10 @@ import java.util.regex.Pattern;
 public class AnimalFromFileParser implements StringFromFileParserToComparable<Animal> {
 
 	private final String PATTERN = "Animal [type=%s, eyeColor=%s, withWool=%s]";
-	private Pattern typeNamePattern = Pattern.compile("Animal[\\s\\[ | \\[]");
-	private Pattern typePattern = Pattern.compile("type=(.*?)[\\,|\\]]");
-	private Pattern eyeColorPattern = Pattern.compile("eyeColor=(.*?)[\\,|\\]]");
-	private Pattern withWoolPattern = Pattern.compile("withWool=(.*?)[\\,|\\]]");
+	private final Pattern typeNamePattern = Pattern.compile("Animal[\\s\\[ | \\[]");
+	private final Pattern typePattern = Pattern.compile("type=(.*?)[\\,|\\]]");
+	private final Pattern eyeColorPattern = Pattern.compile("eyeColor=(.*?)[\\,|\\]]");
+	private final Pattern withWoolPattern = Pattern.compile("withWool=(.*?)[\\,|\\]]");
 
 	@Override
 	public Comparable<Animal> parse(String input, Collection<String> errorMessages) {
@@ -44,7 +44,7 @@ public class AnimalFromFileParser implements StringFromFileParserToComparable<An
 		setType(typeString, builder, errorMessages);
 		setEyeColor(eyeColorString, builder, errorMessages);
 		setWithWool(withWoolString, builder, errorMessages);
-		return errorMessages.size() > 0 ? null : builder.build();
+		return errorMessages.size() > 0 ? null : build(builder, errorMessages);
 	}
 
 	@Override
@@ -66,18 +66,30 @@ public class AnimalFromFileParser implements StringFromFileParserToComparable<An
 			Collection<String> errorMessages) {
 		try {
 			builder.setEyeColor(EyeColorEnum.valueOf(eyeColorString.trim().toUpperCase()));
-		} catch (NumberFormatException e) {
+		} catch (IllegalArgumentException e) {
 			errorMessages.add("Eye color format is incorrect");
 		}
 	}
 
 	private void setWithWool(String withWoolString, Animal.Builder builder,
 			Collection<String> errorMessages) {
-		try {
-			builder.setWool(Boolean.parseBoolean(withWoolString.trim()));
-		} catch (IllegalArgumentException e) {
+		withWoolString = withWoolString.trim().toLowerCase();
+		if ("true".equals(withWoolString)) {
+			builder.setWool(true);
+		} else if ("false".equals(withWoolString)) {
+			builder.setWool(false);
+		} else {
 			errorMessages.add("Wool format is incorrect");
 		}
+	}
+
+	private Animal build(Animal.Builder builder, Collection<String> errorMessages) {
+		try {
+			return builder.build();
+		} catch (RuntimeException e) {
+			errorMessages.add(e.getMessage());
+		}
+		return null;
 	}
 
 }

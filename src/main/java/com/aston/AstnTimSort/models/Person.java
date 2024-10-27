@@ -5,16 +5,15 @@ import java.util.List;
 
 public class Person implements Comparable<Person>, HasIntField {
 
-	public static List<String> surnameMale = Arrays.asList(
-			"Ivanov", "Petrov", "Sidorov", "Kuznetsov", "Smirnov", "Vasiliev", "Popov",
-			"Kovalev", "Lebedev", "Mikhailov", "Sorokin", "Nikolaev", "Stepanov", "Frolov",
-			"Solovyev", "Fyodorov","Volkov", "Baranov", "Vorobyov", "Orlov", "Sidorenko", "Grigoryev",
-			"Kolesnikov", "Tikhonov", "Pavlenko", "Kotenko", "Zakharov");
-	public static List<String> surnameFemale = Arrays.asList(
-			"Nikiforova", "Danilova", "Dorofeeva",
-			"Selezneva", "Ilyina", "Vlasova", "Zotova", "Klementyeva", "Paskova", "Kharchenkova", "Makarevichna", "Romanova",
-			"Kramova", "Koroleva", "Kasyanova", "Bogdanova", "Dementyeva", "Panteleeva", "Yumasheva", "Shtyrkova", "Sveshnikova"
-	);
+	public static List<String> surnameMale = Arrays.asList("Ivanov", "Petrov", "Sidorov",
+			"Kuznetsov", "Smirnov", "Vasiliev", "Popov", "Kovalev", "Lebedev", "Mikhailov",
+			"Sorokin", "Nikolaev", "Stepanov", "Frolov", "Solovyev", "Fyodorov", "Volkov",
+			"Baranov", "Vorobyov", "Orlov", "Sidorenko", "Grigoryev", "Kolesnikov", "Tikhonov",
+			"Pavlenko", "Kotenko", "Zakharov");
+	public static List<String> surnameFemale = Arrays.asList("Nikiforova", "Danilova", "Dorofeeva",
+			"Selezneva", "Ilyina", "Vlasova", "Zotova", "Klementyeva", "Paskova", "Kharchenkova",
+			"Makarevichna", "Romanova", "Kramova", "Koroleva", "Kasyanova", "Bogdanova",
+			"Dementyeva", "Panteleeva", "Yumasheva", "Shtyrkova", "Sveshnikova");
 	private final String lastName;
 	private final Integer age;
 	private final GenderEnum gender;
@@ -74,7 +73,7 @@ public class Person implements Comparable<Person>, HasIntField {
 
 		public Builder setAge(Integer age) {
 			if (age <= 0)
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Age value must be greater than zero");
 			this.age = age;
 			return this;
 		}
@@ -85,6 +84,9 @@ public class Person implements Comparable<Person>, HasIntField {
 		}
 
 		public Person build() {
+			if (lastName == null || age == null || gender == null) {
+				throw new RuntimeException("Incomplete object fields initialization");
+			}
 			return new Person(lastName, age, gender);
 		}
 	}

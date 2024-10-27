@@ -16,7 +16,7 @@ import com.aston.AstnTimSort.repositories.DataRepository;
 
 @Command
 public class InputCommands {
-	private final String CORRUPTED_LINE_MSG_TMPL = "Corrupted line %d \"%s\" was ignored: %s\n";
+	private final String CORRUPTED_LINE_MSG_TMPL = "Line %d \"%s\" was ignored: %s\n";
 
 	private final DataRepository repository;
 
@@ -27,15 +27,15 @@ public class InputCommands {
 
 	@Command(command = "load", description = "Data loading")
 	public void load(
-			@Option(longNames = "interactive", shortNames = 'i', description = "Flag enter data by hands") boolean interactive,
-			@Option(longNames = "random", shortNames = 'r', description = "Flag to load random data") boolean random,
-			@Option(longNames = "file", shortNames = 'f', description = "Flag to load random from file") boolean fromFile,
-			@Option(longNames = "type", shortNames = 't', description = "Name of the required data type") String type,
+			@Option(longNames = "interactive", shortNames = 'i', description = "Flag to enter data by hands") boolean interactive,
+			@Option(longNames = "random", shortNames = 'r', description = "Flag to generate random data") boolean random,
+			@Option(longNames = "file", shortNames = 'f', description = "Flag to load data from file") boolean fromFile,
+			@Option(longNames = "type", shortNames = 't', description = "Required data type name") String type,
 			@Option(longNames = "path", shortNames = 'p', description = "Path to input file") String filePath,
-			@Option(longNames = "count", shortNames = 'c', defaultValue = "0", description = "Name of the required data type") long count)
+			@Option(longNames = "count", shortNames = 'c', defaultValue = "0", description = "Count of generated lines") long count)
 			throws IOException {
 		if (repository.hasData()) {
-			System.out.println("There are some data alreade");
+			System.out.println("There are some data already");
 			Boolean answer = askGeneralQuestion("Do you want to load new data?");
 			if (answer == null) {
 				System.out.println("Unclear answer");
@@ -55,7 +55,7 @@ public class InputCommands {
 			System.out.println("How do you want to load data?");
 			System.out.println("Interactively (-i), randomly (-r), or from file (-f)");
 			Scanner in = new Scanner(System.in);
-			String input = in.nextLine().trim();
+			String input = in.nextLine().trim().toLowerCase();
 			if ("-i".equals(input)) {
 				loadInteractevely(type);
 			} else if ("-r".equals(input)) {
