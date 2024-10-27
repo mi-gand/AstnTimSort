@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.aston.AstnTimSort.utils.BinSearch;
-import com.aston.AstnTimSort.utils.StrangeSort;
+import com.aston.AstnTimSort.utils.FilteredSort;
 import com.aston.AstnTimSort.utils.TimSort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -55,13 +55,13 @@ public class DataRepository {
 		sorted = true;
 	}
 
-	public void strangeSort() {
+	public void filteredSort() {
 		if (!hasData())
 			return;
 		if (!(data.get(0) instanceof HasIntField))
 			throw new UnsupportedOperationException(
 					"This data type cannot be strangely sorted because it doen't have integer field");
-		StrangeSort.sort(data);
+		FilteredSort.sort(data);
 		sorted = false;
 	}
 
