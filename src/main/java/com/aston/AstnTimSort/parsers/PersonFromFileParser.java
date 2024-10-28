@@ -1,5 +1,6 @@
 package com.aston.AstnTimSort.parsers;
 
+import com.aston.AstnTimSort.models.Animal;
 import com.aston.AstnTimSort.models.Person;
 import com.aston.AstnTimSort.models.Person.GenderEnum;
 
@@ -11,10 +12,10 @@ import java.util.regex.Pattern;
 public class PersonFromFileParser implements StringFromFileParserToComparable<Person> {
 
 	private final String PATTERN = "Person [lastName=%s, age=%d, gender=%s]";
-	private Pattern typeNamePattern = Pattern.compile("Person[\\s\\[ | \\[]");
-	private Pattern lastNamePattern = Pattern.compile("lastName=(.*?)[\\,|\\]]");
-	private Pattern agePattern = Pattern.compile("age=(.*?)[\\,|\\]]");
-	private Pattern genderPattern = Pattern.compile("gender=(.*?)[\\,|\\]]");
+	private final Pattern typeNamePattern = Pattern.compile("Person[\\s\\[ | \\[]");
+	private final Pattern lastNamePattern = Pattern.compile("lastName=(.*?)[\\,|\\]]");
+	private final Pattern agePattern = Pattern.compile("age=(.*?)[\\,|\\]]");
+	private final Pattern genderPattern = Pattern.compile("gender=(.*?)[\\,|\\]]");
 
 	@Override
 	public Comparable<Person> parse(String input, Collection<String> errorMessages) {
@@ -43,7 +44,7 @@ public class PersonFromFileParser implements StringFromFileParserToComparable<Pe
 		setBuilderLastName(lastName, builder, errorMessages);
 		setBuilderAge(ageString, builder, errorMessages);
 		setBuilderGender(genderString, builder, errorMessages);
-		return errorMessages.size() > 0 ? null : builder.build();
+		return errorMessages.size() > 0 ? null : build(builder, errorMessages);
 	}
 
 	@Override
@@ -79,6 +80,15 @@ public class PersonFromFileParser implements StringFromFileParserToComparable<Pe
 		} catch (IllegalArgumentException e) {
 			errorMessages.add("Gender format is incorrect");
 		}
+	}
+	
+	private Person build(Person.Builder builder, Collection<String> errorMessages) {
+		try {
+			return builder.build();
+		} catch (RuntimeException e) {
+			errorMessages.add(e.getMessage());
+		}
+		return null;
 	}
 
 }

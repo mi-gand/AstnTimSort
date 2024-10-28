@@ -3,8 +3,8 @@ package com.aston.AstnTimSort.models;
 import java.util.Arrays;
 import java.util.List;
 
-public class Person implements Comparable<Person> {
-
+public class Person implements Comparable<Person>, HasIntField {
+	
 	public static List<String> surnameMale = Arrays.asList(
 			"Ivanov", "Petrov", "Sidorov", "Kuznetsov", "Smirnov",
 			"Vasiliev", "Popov", "Kovalev", "Lebedev", "Mikhailov",
@@ -19,6 +19,7 @@ public class Person implements Comparable<Person> {
 			"Bogdanova", "Dementyeva", "Panteleeva", "Yumasheva", "Shtyrkova",
 			"Sveshnikova"
 	);
+
 	private final String lastName;
 	private final Integer age;
 	private final GenderEnum gender;
@@ -78,7 +79,7 @@ public class Person implements Comparable<Person> {
 
 		public Builder setAge(Integer age) {
 			if (age <= 0)
-				throw new IllegalArgumentException();
+				throw new IllegalArgumentException("Age value must be greater than zero");
 			this.age = age;
 			return this;
 		}
@@ -89,8 +90,16 @@ public class Person implements Comparable<Person> {
 		}
 
 		public Person build() {
+			if (lastName == null || age == null || gender == null) {
+				throw new RuntimeException("Incomplete object fields initialization");
+			}
 			return new Person(lastName, age, gender);
 		}
+	}
+
+	@Override
+	public int getIntField() {
+		return age;
 	}
 
 }

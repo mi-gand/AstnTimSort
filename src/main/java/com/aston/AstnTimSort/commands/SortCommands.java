@@ -17,8 +17,27 @@ public class SortCommands {
 
 	@Command(command = "sort", description = "sort data")
 	public void sort() {
+		if(!repository.hasData()) {
+			System.out.println("There are no data");
+			return;
+		}
 		repository.sort();
 		System.out.println("Data has been sorted");
+	}
+	
+	@Command(command = "filteredSort", description = "sorting with filtering of even and odd positions")
+	public void filteredSort() {
+		if(!repository.hasData()) {
+			System.out.println("There are no data");
+			return;
+		}
+		try {
+		repository.filteredSort();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return;
+		}
+		System.out.println("Data has been sorted with filtration");
 	}
 
 }

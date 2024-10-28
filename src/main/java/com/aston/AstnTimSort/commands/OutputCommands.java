@@ -1,8 +1,10 @@
 package com.aston.AstnTimSort.commands;
 
+import static com.aston.AstnTimSort.utils.ConsoleUtils.askGeneralQuestion;
+import static com.aston.AstnTimSort.utils.ConsoleUtils.getFilePathFromUser;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Scanner;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.shell.command.annotation.Command;
@@ -29,39 +31,34 @@ public class OutputCommands {
 	public void export(
 			@Option(longNames = "append", shortNames = 'a', description = "Flag to append export") Boolean append,
 			@Option(longNames = "force", shortNames = 'f', description = "Flag to rewrite file") Boolean force,
-			@Option(longNames = "path", shortNames = 'p', description = "Path to export file") String file) {
+			@Option(longNames = "path", shortNames = 'p', description = "Path to export file") String file)
+			throws Exception {
 		if (force & append) {
 			System.out.println("Force and append options are incompatible");
 			return;
 		}
-		if (file == null) {
-			System.out.println("Type the file path:");
-			Scanner in = new Scanner(System.in);
-			file = in.nextLine();
-		}
-		Path filePath = null;
+
+		Path filePath;
 		try {
-			filePath = Path.of(file);
-			if (filePath == null) {
-				System.out.println("Incorrect path");
-				return;
-			}
-		} catch (RuntimeException e) {
+			filePath = getFilePathFromUser(file);
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return;
 		}
+
 		boolean isFileExists = Files.exists(filePath);
 
-		if (isFileExists & !force & !append) {
-			force = askIfUserWantsToRewriteFile();
+		if (isFileExists && !force && !append) {
+			System.out.println("This file already exists");
+			force = askGeneralQuestion("Do you want to rewrite file?");
 			if (force == null) {
 				System.out.println("Unclear answer");
 				return;
 			}
 		}
 
-		if (isFileExists & !force & !append) {
-			append = askIfUserWantsToAppendToFile();
+		if (isFileExists && !force && !append) {
+			append = askGeneralQuestion("Do you want to append to the file?");
 			if (append == null) {
 				System.out.println("Unclear answer");
 				return;
@@ -79,36 +76,10 @@ public class OutputCommands {
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Something went wrong(");
-//			e.printStackTrace();
+			System.out.println("Something went wrong:(");
+			throw e;
 		}
-
+		System.out.println("Data has been exported");
 	}
 
-	private Boolean askIfUserWantsToRewriteFile() {
-		System.out.println("This file already exists");
-		System.out.print("Do you want to rewrite file? (Y/N): ");
-		Scanner in = new Scanner(System.in);
-		String answer = in.nextLine().trim().toUpperCase();
-		if ("Y".equals(answer)) {
-			return true;
-		} else if ("N".equals(answer)) {
-			return false;
-		} else {
-			return null;
-		}
-	}
-
-	private Boolean askIfUserWantsToAppendToFile() {
-		System.out.print("Do you want to append to the file? (Y/N): ");
-		Scanner in = new Scanner(System.in);
-		String answer = in.nextLine().trim().toUpperCase();
-		if ("Y".equals(answer)) {
-			return true;
-		} else if ("N".equals(answer)) {
-			return false;
-		} else {
-			return null;
-		}
-	}
 }

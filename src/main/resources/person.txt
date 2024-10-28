@@ -1,9 +1,21 @@
-Ivanov 35 male
-Popova 28 female
-Petrov 18 male
-Sidorov 40 male
-Ivanov 30 male
-Ivanov male
-Ivanov 0 male
-Ivanov1 14 male
-Ivanov 30 null
+Person [lastName=Kolesnikov, age=29, gender=MALE]
+Person [lastName=Koroleva, age=50, gender=FEMALE]
+Person [lastName=Kasyanova, age=20, gender=FEMALE]
+Person [lastName=Shtyrkova, age=75, gender=FEMALE]
+Person [lastName=Selezneva, age=70, gender=FEMALE]
+Person [lastName=Bogdanova, age=44, gender=FEMALE]
+Person [lastName=Panteleeva, age=73, gender=FEMALE]
+Person [lastName=Makarevichna, age=45, gender=FEMALE]
+Person [lastName=Makarevichna, age=93, gender=FEMALE]
+Person [lastName=Zakharov, age=8, gender=MALE]
+Person [lastName=Sorokin, age=92, gender=MALE]
+Person [lastName=Panteleeva, age=9, gender=FEMALE]
+Person [lastName=Kotenko, age=70, gender=MALE]
+Person [lastName=Mikhailov, age=35, gender=MALE]
+Person [lastName=Dorofeeva, age=13, gender=FEMALE]
+Person [lastName=Zotova, age=61, gender=FEMALE]
+Person [lastName=Orlov, age=2, gender=MALE]
+Person [lastName=Zakharov, age=34, gender=MALE]
+Person [lastName=Kolesnikov, age=51, gender=MALE]
+Person [lastName=Selezneva, age=50, gender=FEMALE]
+Barrel [amount= 374.53, storedMaterial=compote, whichItIsMade= PLASTIC]

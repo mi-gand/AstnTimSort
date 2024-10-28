@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.joining;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -22,12 +23,9 @@ public class ParserFactory {
 				.collect(joining(", "));
 	}
 
-	public StringParserToComparable<?> getParser(String className) {
+	public Optional<StringParserToComparable<?>> getParser(String className) {
 		className = className.trim().toUpperCase();
-		if (!map.keySet().contains(className)) {
-			throw new IllegalArgumentException("This data type is not supported");
-		}
-		return map.get(className);
+		return Optional.ofNullable(map.get(className));
 	}
 
 	public String getNamesOfSupportedTypesAsOneLine() {

@@ -4,6 +4,7 @@ import static java.util.stream.Collectors.joining;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Component;
 
@@ -15,19 +16,16 @@ public class ParserFromFileFactory {
 		map.put("ANIMAL", new AnimalFromFileParser());
 		map.put("BARREL", new BarrelFromFileParser());
 	}
-	
+
 	private final String namesOfSupportedTypesAsOneLine;
 	{
 		namesOfSupportedTypesAsOneLine = map.keySet().stream().map(str -> str.toLowerCase())
 				.collect(joining(", "));
 	}
 
-	public StringFromFileParserToComparable<?> getParser(String className) {
+	public Optional<StringFromFileParserToComparable<?>> getParser(String className) {
 		className = className.trim().toUpperCase();
-		if (!map.keySet().contains(className)) {
-			throw new IllegalArgumentException("This data type is not supported");
-		}
-		return map.get(className);
+		return Optional.ofNullable(map.get(className));
 	}
 
 	public String getNamesOfSupportedTypesAsOneLine() {
