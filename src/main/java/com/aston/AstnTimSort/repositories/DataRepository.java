@@ -132,7 +132,9 @@ public class DataRepository {
 	public void exportToFile(Path path, boolean append) throws IOException {
 		if (data == null)
 			return;
-		OpenOption openOption = append ? StandardOpenOption.APPEND : StandardOpenOption.CREATE;
+		OpenOption[] openOption = append ? new OpenOption[] {StandardOpenOption.APPEND}
+				: new OpenOption[] { StandardOpenOption.TRUNCATE_EXISTING,
+						StandardOpenOption.CREATE };
 		try (BufferedWriter input = Files.newBufferedWriter(path, openOption)) {
 			for (Comparable<?> obj : data) {
 				input.write(parserFromFile.getParsableRepresentation(obj) + "\n");
@@ -143,7 +145,9 @@ public class DataRepository {
 	public void exportToFileSearchResult(Path path, boolean append) throws IOException {
 		if (searchResult == null)
 			return;
-		OpenOption openOption = append ? StandardOpenOption.APPEND : StandardOpenOption.CREATE;
+		OpenOption[] openOption = append ? new OpenOption[] {StandardOpenOption.APPEND}
+				: new OpenOption[] { StandardOpenOption.TRUNCATE_EXISTING,
+						StandardOpenOption.CREATE };
 		try (BufferedWriter input = Files.newBufferedWriter(path, openOption)) {
 			input.write(parserFromFile.getParsableRepresentation(searchResult) + "\n");
 		}
