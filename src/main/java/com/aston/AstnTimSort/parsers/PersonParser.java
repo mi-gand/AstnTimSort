@@ -47,11 +47,9 @@ public class PersonParser implements StringParserToComparable<Person> {
 		String gender = random.nextBoolean() ? "male":"female";
 		String surname = null;
 		if (gender.equals("male")) {
-			String surnames = Person.surnameMale.get(random.nextInt(Person.surnameMale.size()));
-			surname = surnames;
-		}if (gender.equals("female")){
-			String surnames = Person.surnameFemale.get(random.nextInt(Person.surnameFemale.size()));
-			surname = surnames;
+			surname = Person.surnameMale.get(random.nextInt(Person.surnameMale.size()));
+		} else {
+			surname = Person.surnameFemale.get(random.nextInt(Person.surnameFemale.size()));
 		}
 		int age = random.nextInt(1, 101);
 		return String.format("%s %d %s",surname,age,gender);

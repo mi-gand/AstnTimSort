@@ -28,11 +28,13 @@ public class AnimalParser implements StringParserToComparable<Animal> {
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException("Eye color format is incorrect");
 		}
-		try {
-			builder.setWool(Boolean.valueOf(substrings[2]));
-		} catch (IllegalArgumentException e) {
-			throw new IllegalArgumentException(
-					'"' + "Animal with fur?" + '"' + " format is incorrect");
+		String hasWoolString = substrings[2].toLowerCase();
+		if ("true".equals(hasWoolString)) {
+			builder.setWool(true);
+		} else if ("false".equals(hasWoolString)) {
+			builder.setWool(false);
+		} else {
+			throw new IllegalArgumentException("\"Animal with fur?\" format is incorrect");
 		}
 		return builder.build();
 	}

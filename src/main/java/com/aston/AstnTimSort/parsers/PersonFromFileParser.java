@@ -1,6 +1,5 @@
 package com.aston.AstnTimSort.parsers;
 
-import com.aston.AstnTimSort.models.Animal;
 import com.aston.AstnTimSort.models.Person;
 import com.aston.AstnTimSort.models.Person.GenderEnum;
 

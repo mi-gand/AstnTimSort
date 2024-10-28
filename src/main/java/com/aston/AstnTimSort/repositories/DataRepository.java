@@ -55,6 +55,7 @@ public class DataRepository {
 		sorted = true;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void filteredSort() {
 		if (!hasData())
 			return;
