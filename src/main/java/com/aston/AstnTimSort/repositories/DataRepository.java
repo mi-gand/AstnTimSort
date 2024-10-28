@@ -55,13 +55,14 @@ public class DataRepository {
 		sorted = true;
 	}
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void filteredSort() {
 		if (!hasData())
 			return;
 		if (!(data.get(0) instanceof HasIntField))
 			throw new UnsupportedOperationException(
 					"This data type cannot be strangely sorted because it doen't have integer field");
-		FilteredSort.sort(data);
+		FilteredSort.sort((List) data);
 		sorted = false;
 	}
 

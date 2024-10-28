@@ -21,7 +21,7 @@ public class BarrelParser implements StringParserToComparable<Barrel>{
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Amount format is incorrect");
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Amount must be greater then zero");
+            throw new IllegalArgumentException("Amount must be greater than zero");
         }
         try {
             builder.setStoredMaterial(substrings[1]);

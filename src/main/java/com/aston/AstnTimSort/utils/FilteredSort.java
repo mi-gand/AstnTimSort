@@ -12,13 +12,13 @@ public final class FilteredSort {
         throw new UnsupportedOperationException();
     }
 
-    public static void sort(List<Comparable<?>> data) {
+    public static void sort(List<HasIntField> data) {
         // находим четные элементы и индексы этих элементов
         List<Integer> evenIndexes = new ArrayList<>();
         List<HasIntField> evenElements = new ArrayList<>();
 
         for (int i = 0; i < data.size(); i++) {
-            HasIntField hasIntField = (HasIntField) data.get(i);
+            HasIntField hasIntField = data.get(i);
             if (hasIntField.getIntField() % 2 == 0) {
                 evenIndexes.add(i);
                 evenElements.add(hasIntField);
@@ -30,7 +30,7 @@ public final class FilteredSort {
 
         // вставляем элементы в их позиции
         for (int i = 0; i < evenIndexes.size(); i++) {
-            data.set(evenIndexes.get(i), (Comparable<?>) evenElements.get(i));
+            data.set(evenIndexes.get(i), evenElements.get(i));
         }
     }
 }

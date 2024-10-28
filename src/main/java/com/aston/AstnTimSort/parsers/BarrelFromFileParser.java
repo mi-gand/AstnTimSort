@@ -11,10 +11,10 @@ import java.util.regex.Pattern;
 public class BarrelFromFileParser implements StringFromFileParserToComparable<Barrel> {
 
 	private final String PATTERN = "Barrel [amount=%.2f, storedMaterial=%s, whichItIsMade=%s]";
-	private Pattern typeNamePattern = Pattern.compile("Barrel[\\s\\[ | \\[]");
-	private Pattern amountPattern = Pattern.compile("amount=(.*?)[\\,|\\]]");
-	private Pattern storedMaterialPattern = Pattern.compile("storedMaterial=(.*?)[\\,|\\]]");
-	private Pattern whichItIsMadePattern = Pattern.compile("whichItIsMade=(.*?)[\\,|\\]]");
+	private final Pattern typeNamePattern = Pattern.compile("Barrel[\\s\\[ | \\[]");
+	private final Pattern amountPattern = Pattern.compile("amount=(.*?)[\\,|\\]]");
+	private final Pattern storedMaterialPattern = Pattern.compile("storedMaterial=(.*?)[\\,|\\]]");
+	private final Pattern whichItIsMadePattern = Pattern.compile("whichItIsMade=(.*?)[\\,|\\]]");
 
 	@Override
 	public Comparable<Barrel> parse(String input, Collection<String> errorMessages) {
@@ -43,7 +43,7 @@ public class BarrelFromFileParser implements StringFromFileParserToComparable<Ba
 		setAmount(amountString, builder, errorMessages);
 		setStoredMaterial(storedMaterialString, builder, errorMessages);
 		setWhichItIsMade(whichItIsMadeString, builder, errorMessages);
-		return errorMessages.size() > 0 ? null : builder.build();
+		return errorMessages.size() > 0 ? null : build(builder, errorMessages);
 	}
 
 	@Override
@@ -77,6 +77,15 @@ public class BarrelFromFileParser implements StringFromFileParserToComparable<Ba
 		} catch (IllegalArgumentException e) {
 			errorMessages.add("Which-it-is-made format is incorrect");
 		}
+	}
+	
+	private Barrel build(Barrel.Builder builder, Collection<String> errorMessages) {
+		try {
+			return builder.build();
+		} catch (RuntimeException e) {
+			errorMessages.add(e.getMessage());
+		}
+		return null;
 	}
 
 }
